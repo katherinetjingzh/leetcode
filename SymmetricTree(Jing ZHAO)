@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool isSymmetric(TreeNode *root) {
+        if (root== NULL) {
+            return true;
+        }
+        vector<TreeNode* > pre_level;
+        vector<TreeNode* > cur_level;
+        TreeNode* cur;
+        pre_level.push_back(root);
+        while (!pre_level.empty()) {
+    
+            for (int i = 0;i < pre_level.size(); ++i) {
+                if (pre_level[i]) {
+                    cur_level.push_back(pre_level[i]->left);
+                    cur_level.push_back(pre_level[i]->right);
+                }
+            }
+            
+            for (int i = 0,j = cur_level.size()-1; i < j; ++i,--j) {
+                if (!cur_level[i] && !cur_level[j]) {
+                    continue;
+                }
+                else if (!cur_level[i] && cur_level[j])
+                    return false;
+                else if(cur_level[i] && !cur_level[j])
+                    return false;
+                else if(cur_level[i]->val!= cur_level[j]->val)
+                    return false;
+                
+            }
+            pre_level = cur_level;
+            cur_level.clear();
+        }
+        
+        return true;
+    }
+
+};
