@@ -1,0 +1,58 @@
+
+class Solution {
+public:
+    void reverseWords(string &s) {
+	
+        reverseString(s);
+		int start = 0; int end,index = 0;
+		while(start<s.size())
+		{
+			if(s[start]==' ')
+			{
+				start++;
+				continue;
+			}
+			else
+			{
+				end = start;
+				while(s[end] != ' ' && end<s.size())
+					end++;
+				end--;
+			
+				string tmp(s,start,end-start+1);
+				reverseString(tmp);
+			
+				for(int j = 0; j < tmp.size();++j)
+				{
+					s[index++] = tmp[j];
+				}
+
+				s[index++]=' ';
+				start = end+1;
+			}
+		}
+		
+
+		//Special handle of this to make sure there is no whitespace in the end
+		if(index>0&&s[index-1] == ' ')
+			s.erase(index-1);
+		else
+			s.erase(index);
+	}
+
+
+	void reverseString(string& s)
+	{
+		int start = 0, end = s.size()-1;
+		char tmp;
+		while(start<end)
+		{
+			tmp = s[start];
+			s[start] = s[end];
+			s[end] = tmp;
+			start++;
+			end--;
+		}
+	}
+
+};
