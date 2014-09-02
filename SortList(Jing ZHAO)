@@ -1,0 +1,54 @@
+class Solution {
+public:
+    ListNode *sortList(ListNode *head) {
+        if(head==NULL || head->next==NULL)
+			return head;
+
+		ListNode *slow = head, *fast = head;
+		while (fast!=NULL&&fast->next!=NULL)
+		{
+			fast = fast->next->next;
+			if(fast==NULL)
+				break;
+			slow = slow->next;
+			
+		}
+
+		fast = sortList(slow->next);
+		slow->next = NULL;
+		slow = sortList(head);
+		ListNode* newHead = new ListNode(INT_MIN);
+		ListNode* p = newHead;
+		while(fast!=NULL && slow!=NULL)
+		{
+			if(fast->val < slow->val)
+			{
+				p->next = new ListNode(fast->val);
+				fast = fast->next;
+			}
+			else
+			{
+				p->next = new ListNode(slow->val);
+				slow = slow->next;
+			}
+			p = p->next;
+		}
+
+		while(fast!=NULL)
+		{
+			p->next = new ListNode(fast->val);
+			fast =fast->next;
+			p = p->next;
+		}
+
+		while(slow!=NULL)
+		{
+			p->next = new ListNode(slow->val);
+			slow = slow->next;
+			p = p->next;
+		}
+
+		return newHead->next;
+		
+    }
+};
