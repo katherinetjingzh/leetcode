@@ -1,0 +1,47 @@
+class Solution {
+private:
+    vector<TreeNode* > result;
+public:
+    vector<TreeNode *> generateTrees(int n) {
+        result.clear();
+        if (n<0) {
+            return result;
+        }
+        
+        result = buildTree(1, n);
+        
+        return result;
+        
+    }
+    
+    vector<TreeNode* > buildTree(int start, int end)
+    {
+         vector<TreeNode* > result;
+        if(start>end)
+        {
+            result.push_back(NULL);
+            return result;
+        }
+        
+       
+        vector<TreeNode* > left;
+        vector<TreeNode* > right;
+        TreeNode* parent;
+        
+        for (int i = start; i <=end; ++i) {
+            parent = new TreeNode(i);
+            left = buildTree(0,i-1);
+            right = buildTree(i+1, end);
+            
+            for (int j = 0; j < left.size(); ++j) {
+                for (int k = 0; k < right.size(); ++k) {
+                    parent->left = left[j];
+                    parent->right = right[k];
+                    result.push_back(parent);
+                }
+            }
+        }
+        return result;
+    }
+    
+};
