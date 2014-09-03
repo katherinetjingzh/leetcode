@@ -1,34 +1,18 @@
 class Solution {
 public:
-    vector<TreeNode *> generateTrees(int n) {
-        vector<TreeNode*> result;
-        genTree(1,n,result);
-        return result;
-    }
-    
-    void genTree(int start, int end, vector<TreeNode*>& result)
-    {
-        if(start > end)
-        {
-            result.push_back(NULL);
-            return;
-        }
+    int numTrees(int n) {
+        int* num = new int[n+1];
+        memset(num, 0, (n+1)*sizeof(int));
+        num[0] = 1;
         
-        for(int i = start; i <= end; i++)
+        for(int i = 1; i < n + 1; i++)
         {
-            vector<TreeNode*> left;
-            genTree(start, i - 1, left);
-            vector<TreeNode*> right;
-            genTree(i + 1, end, right);
-            for(int ii = 0; ii < left.size(); ii++)
+            for(int j = 0; j < i; j++)
             {
-                for(int jj = 0; jj < right.size(); jj++)
-                {
-                    TreeNode* root = new TreeNode(i);
-                    root->left = left[ii];
-                    root->right = right[jj];
-                    result.push_back(root);
-                }
+                num[i] += num[j] * num[i-j-1];
             }
         }
+        
+        return num[n];
     }
+};
